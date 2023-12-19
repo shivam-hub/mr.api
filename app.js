@@ -1,7 +1,7 @@
 const express = require('express');
 const connectDB = require('./utils/db');
 const authRoutes = require('./routes/authRoutes');
-const jwtMiddleware = require('./middleware/jwtMiddleware')
+const cors = require('cors');
 require('dotenv').config();
 
 const app = express();
