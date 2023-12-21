@@ -5,7 +5,7 @@ const createDoctor = async (req, res) => {
     try {
         const payload = req.body;
 
-        if(!payload.name){
+        if(!payload || !payload.name){
             return res.status(500).json({message : "Doctor's name is not passed"})
         }
 

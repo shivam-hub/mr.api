@@ -3,6 +3,8 @@ const connectDB = require('./utils/db');
 const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
 const doctorRoutes = require('./routes/doctorRoutes');
+const visitRoutes = require('./routes/visitRoutes');
+
 const cors = require('cors');
 require('dotenv').config();
 
@@ -18,6 +20,7 @@ app.use(express.json());
 app.use('/api/Auth', authRoutes);
 app.use('/api/Users', userRoutes);
 app.use('/api/Doctor', doctorRoutes);
+app.use('/api/Visits', visitRoutes)
 
 // Connect to MongoDB
 connectDB();
