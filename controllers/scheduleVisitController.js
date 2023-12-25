@@ -10,8 +10,9 @@ const addSchedule = async (req, res) => {
             res.status(500).json({ message: 'Please provide all required info' });
         }
 
-        const parsedPlannedVisitTime = new Date(); // Get the current date
         const timeComponents = payload.plannedVisitTime.match(/(\d+):(\d+) (AM|PM)/);
+        const plannedVisitDate = Date.parse(payload.plannedVisitDate);
+        const parsedPlannedVisitTime = new Date(plannedVisitDate); // Get the current date
 
         if (timeComponents) {
             let hours = parseInt(timeComponents[1]);
@@ -32,9 +33,6 @@ const addSchedule = async (req, res) => {
 
         const createdOn = Date.now();
         const scheduleId = crypto.randomUUID().toString();
-
-        const plannedVisitDate = Date.parse(payload.plannedVisitDate);
-
 
         payload.createdOn = createdOn;
         payload.scheduleId = scheduleId;
