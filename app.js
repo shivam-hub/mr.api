@@ -4,6 +4,7 @@ const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
 const doctorRoutes = require('./routes/doctorRoutes');
 const visitRoutes = require('./routes/visitRoutes');
+const scheduleVisitRoutes = require('./routes/scheduleVisitRoutes');
 
 const cors = require('cors');
 require('dotenv').config();
@@ -13,16 +14,15 @@ const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 
-// Middleware
 app.use(express.json());
 
 // Routes
 app.use('/api/Auth', authRoutes);
 app.use('/api/Users', userRoutes);
 app.use('/api/Doctor', doctorRoutes);
-app.use('/api/Visits', visitRoutes)
+app.use('/api/Visits', visitRoutes);
+app.use('/api/ScheduleVisit', scheduleVisitRoutes);
 
-// Connect to MongoDB
 connectDB();
 
 // Start the server

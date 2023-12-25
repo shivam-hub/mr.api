@@ -1,7 +1,5 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const doctorModel = require('../models/Doctor');
-const userModel = require('../models/User');
 const PointSchema = require('../models/PointSchema');
 const addressInfoModel = require('../models/AddressInfo');
 
