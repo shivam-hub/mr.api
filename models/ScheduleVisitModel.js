@@ -5,7 +5,8 @@ const addressInfoModel = require('../models/AddressInfo');
 
 const AssociatedMedicalSchema = {
     name : String,
-    addressInfo: addressInfoModel,
+    location: String,
+    gstNumber: String
 };
 
 const doctorInfo = {

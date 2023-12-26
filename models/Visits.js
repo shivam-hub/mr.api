@@ -11,10 +11,10 @@ const mrInfo = {
     userId : String
 }
 
-
 const AssociatedMedicalSchema = {
     name : String,
-    addressInfo: addressInfoModel,
+    location: String,
+    gstNumber: String
 };
 
 const doctorInfo = {
@@ -25,8 +25,6 @@ const doctorInfo = {
     addressInfo : addressInfoModel,
     associatedMedicals: [AssociatedMedicalSchema],
 }
-
-
 
 const VisitSchema = new Schema({
     mrId: { type: String, required: true },
