@@ -13,6 +13,7 @@ const DoctorSchema = new Schema({
     name: { type: String, required: true, unique: true },
     createdOn: { type: String},
     modifiedOn: { type: String},
+    regNo : {type : String, unique: true},
     addressInfo: addressInfoModel,
     speciality: { type: String},
     clinicName: { type: String },
