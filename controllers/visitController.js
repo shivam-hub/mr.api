@@ -13,7 +13,13 @@ const addVisit = async(req, res) => {
         if(payload.doctorInfo && (!payload.doctorInfo.drId || payload.doctorInfo.drId === "")){
             const docInfo = payload.doctorInfo;
             const res = await doctorService.addDoctor(docInfo);
-            payload.docInfo = res;
+            payload.doctorInfo = res;
+        }
+        else if(payload.doctorInfo.drId !== ""){
+            const docInfo = payload.doctorInfo;
+            await doctorService.updateDoctor(docInfo);
+            const res = await doctorService.getDoctorById(docInfo.drId);
+            payload.doctorInfo = res;
         }
 
         const visitedOn = Date.now();

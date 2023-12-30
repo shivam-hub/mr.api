@@ -23,4 +23,27 @@ const addDoctor = async (payload) => {
     }
 }
 
-module.exports = { addDoctor };
+const updateDoctor = async(payload) => {
+    try {
+        if (!payload || !payload.name) {
+            throw Error();
+        }
+
+        const res = Doctor.updateOne({ drId : payload.drId}, {$set : payload});
+        return res;
+
+    } catch (error) {
+        throw error;
+    }
+}
+
+const getDoctorById = async(drId) => {
+    try{
+        const res = Doctor.findOne({drId : drId});
+        return res;
+    }catch(error){
+
+    }
+}
+
+module.exports = { addDoctor, updateDoctor, getDoctorById };
