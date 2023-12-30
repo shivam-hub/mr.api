@@ -5,6 +5,7 @@ const userRoutes = require('./routes/userRoutes');
 const doctorRoutes = require('./routes/doctorRoutes');
 const visitRoutes = require('./routes/visitRoutes');
 const scheduleVisitRoutes = require('./routes/scheduleVisitRoutes');
+const productsRoutes = require('./routes/productRoutes');
 
 const cors = require('cors');
 require('dotenv').config();
@@ -22,6 +23,7 @@ app.use('/api/Users', userRoutes);
 app.use('/api/Doctor', doctorRoutes);
 app.use('/api/Visits', visitRoutes);
 app.use('/api/ScheduleVisit', scheduleVisitRoutes);
+app.use('/api/Products', productsRoutes);
 
 connectDB();
 

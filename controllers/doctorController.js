@@ -1,25 +1,14 @@
 const crypto = require('crypto')
 const Doctor = require('../models/Doctor');
+const doctorService = require('../services/doctorServices');
 
 const createDoctor = async (req, res) => {
     try {
         const payload = req.body;
 
-        if(!payload || !payload.name){
-            return res.status(500).json({message : "Doctor's name is not passed"})
-        }
+        const r = await doctorService.addDoctor(payload);
 
-        const createdOn = Date.now();
-
-        const drId = crypto.randomUUID().toString();
-
-        payload.drId = drId;
-        payload.createdOn = createdOn;
-
-        const newDoctor = new Doctor(payload);
-        const result = await newDoctor.save();
-
-        res.status(201).json({ message: 'Doctor created successfully', data: result});
+        res.status(201).json({ message: 'Doctor created successfully', data: r});
 
 
     } catch (error) {

@@ -26,19 +26,28 @@ const doctorInfo = {
     associatedMedicals: [AssociatedMedicalSchema],
 }
 
+const product = {
+    name : String,
+    code : String,
+    division : String,
+    group : String
+}
+
 const VisitSchema = new Schema({
     mrId: { type: String, required: true },
     visitId: { type: String, required: true, unique: true },
     mrInfo: mrInfo,
     doctorInfo: doctorInfo,
     visitedOn: { type: Date, required: true },
+    feedback : String,
     attachments: [
         {
             fileName: String,
             fileId: String
         }
     ],
-    location: PointSchema
+    location: PointSchema,
+    products : [product]
 })
 
 const Visit = mongoose.model('Visit', VisitSchema);
