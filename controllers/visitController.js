@@ -1,5 +1,6 @@
 const crypto = require('crypto')
 const Visit = require('../models/Visits');
+const doctorService = require('../services/doctorServices');
 
 const addVisit = async(req, res) => {
     try {
@@ -7,6 +8,12 @@ const addVisit = async(req, res) => {
 
         if(!payload || !payload.mrId){
             res.status(500).json({message : "Payload is null"})
+        }
+
+        if(payload.doctorInfo && (!payload.doctorInfo.drId || payload.doctorInfo.drId === "")){
+            const docInfo = payload.doctorInfo;
+            const res = await doctorService.addDoctor(docInfo);
+            payload.docInfo = res;
         }
 
         const visitedOn = Date.now();

@@ -11,10 +11,10 @@ const mrInfo = {
     userId : String
 }
 
-
 const AssociatedMedicalSchema = {
     name : String,
-    addressInfo: addressInfoModel,
+    location: String,
+    gstNumber: String
 };
 
 const doctorInfo = {
@@ -26,7 +26,12 @@ const doctorInfo = {
     associatedMedicals: [AssociatedMedicalSchema],
 }
 
-
+const product = {
+    name : String,
+    code : String,
+    division : String,
+    group : String
+}
 
 const VisitSchema = new Schema({
     mrId: { type: String, required: true },
@@ -34,13 +39,15 @@ const VisitSchema = new Schema({
     mrInfo: mrInfo,
     doctorInfo: doctorInfo,
     visitedOn: { type: Date, required: true },
+    feedback : String,
     attachments: [
         {
             fileName: String,
             fileId: String
         }
     ],
-    location: PointSchema
+    location: PointSchema,
+    products : [product]
 })
 
 const Visit = mongoose.model('Visit', VisitSchema);
