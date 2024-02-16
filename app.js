@@ -17,7 +17,6 @@ app.use(cors());
 
 app.use(express.json());
 
-// Routes
 app.use('/api/Auth', authRoutes);
 app.use('/api/Users', userRoutes);
 app.use('/api/Doctor', doctorRoutes);
@@ -27,7 +26,6 @@ app.use('/api/Products', productsRoutes);
 
 connectDB();
 
-// Start the server
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`Server is running on port ${PORT}`);
 });

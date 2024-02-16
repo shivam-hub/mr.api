@@ -6,5 +6,6 @@ const router = express.Router();
 router.use(jwtMiddleware);
 
 router.post('/add', visitController.addVisit);
+router.get('/getAllVisits', visitController.getAllVisits);
 
 module.exports = router;
