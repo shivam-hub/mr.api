@@ -12,7 +12,7 @@ const addSchedule = async (req, res) => {
 
         const timeComponents = payload.plannedVisitTime.match(/(\d+):(\d+) (AM|PM)/);
         const plannedVisitDate = Date.parse(payload.plannedVisitDate);
-        const parsedPlannedVisitTime = new Date(plannedVisitDate); // Get the current date
+        const parsedPlannedVisitTime = new Date(plannedVisitDate);
 
         if (timeComponents) {
             let hours = parseInt(timeComponents[1]);
