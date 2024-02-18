@@ -8,7 +8,7 @@ const createDoctor = async (req, res) => {
 
         const r = await doctorService.addDoctor(payload);
 
-        res.status(201).json({ message: 'Doctor created successfully', data: r});
+        res.status(201).json({ message: 'Doctor created successfully', data: r });
 
 
     } catch (error) {
@@ -17,7 +17,7 @@ const createDoctor = async (req, res) => {
     }
 };
 
-const getAllDoctors = async(req, res) => {
+const getAllDoctors = async (req, res) => {
     try {
         const doctors = await Doctor.find();
         res.status(200).json(doctors);
@@ -27,17 +27,27 @@ const getAllDoctors = async(req, res) => {
     }
 }
 
-const searchDoctors = async(req, res) => {
+const searchDoctors = async (req, res) => {
     try {
         const query = req.params.query;
-
-        const doctors = await Doctor.find({ name : {$regex : query, $options: 'i'}});
-    
-        res.status(200).json({doctors});
+        const doctors = await Doctor.find({ name: { $regex: query, $options: 'i' } });
+        res.status(200).json({ doctors });
     } catch (error) {
         console.log(error);
-        res.status(500).json({message : error});
+        res.status(500).json({ message: error });
     }
 }
 
-module.exports = {createDoctor, getAllDoctors, searchDoctors};
+const bulkAddFromExcel = async (req, res) => {
+    try {
+        const response = await doctorService.BulkAddFromExcel(req);
+        if (!response) {
+            res.status(500).json({ message: 'Upload failed!!' });
+        }
+        res.status(200).json({ message: 'Doctors added successfully' });
+    } catch (error) {
+        res.status(500).json({ message: 'Upload failed!!' });
+    }
+}
+
+module.exports = { createDoctor, getAllDoctors, searchDoctors, bulkAddFromExcel };

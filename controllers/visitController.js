@@ -24,21 +24,10 @@ const addVisit = async (req, res) => {
         }
 
         const visitedOn = Date.now();
-        const visitId = crypto.randomUUID().toString();
-
+        const dt = new Date();
+        const visitId = `V${String(dt.getDate()).padStart(2, '0')}${String(dt.getMonth() + 1).padStart(2, '0')}${dt.getFullYear()}${String(dt.getHours()).padStart(2,'0')}${String(dt.getMinutes()).padStart(2,'0')}`;
         payload.visitedOn = visitedOn;
         payload.visitId = visitId;
-
-        const base64Image = payload.attachments[0].fileName;
-        let filePath = '';
-
-        if (base64Image && base64Image !== '') {
-            filePath = uploadImage({ base64Image });
-        }
-
-        if(filePath != null && filePath !== ''){
-            payload.attachments[0].filePath = filePath;
-        }
 
         const result = await new Visit(payload).save();
 
