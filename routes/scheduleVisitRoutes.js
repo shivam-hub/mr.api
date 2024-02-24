@@ -1,6 +1,6 @@
 const express = require('express');
 const scheduleVisitController = require('../controllers/scheduleVisitController');
-const jwtMiddleware = require('../middleware/jwtMiddleware');
+const jwtMiddleware = require('../middleware/jwt.middleware');
 
 const router = express.Router();
 router.use(jwtMiddleware);

@@ -32,7 +32,9 @@ const addSchedule = async (req, res) => {
         }
 
         const createdOn = Date.now();
-        const scheduleId = crypto.randomUUID().toString();
+        const dt = new Date();
+
+        const scheduleId = `S${String(dt.getDate()).padStart(2, '0')}${String(dt.getMonth() + 1).padStart(2, '0')}${dt.getFullYear()}${String(dt.getHours()).padStart(2,'0')}${String(dt.getMinutes()).padStart(2,'0')}`;
 
         payload.createdOn = createdOn;
         payload.scheduleId = scheduleId;

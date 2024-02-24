@@ -1,39 +1,35 @@
-const multer = require('multer');
 const fs = require('fs');
+const xlsx = require('xlsx');
+const upload = require('../middleware/multer.middleware')
 
-// const storage = multer.diskStorage({
-//     destination: function (req, file, cb) {
-//         cb(null, `/uploads/images/${req.body.userId}`)
-//     },
 
-//     filename: function (req, file, cb) {
-//         const uniqueSuffix = Date.now() + '-' + req.body.userId ?? '';
-//         cb(null, file.fieldname + '-' + uniqueSuffix)
-//     }
-// })
-
-// const upload = multer({ storage })
-
-const uploadImage = (req) => {
-    try {
-        const payload = req;
-        const base64Image = payload.base64Image;
-        const imageBuffer = Buffer.from(base64Image, 'base64');
-
-        const file = {
-            buffer: imageBuffer,
-            originalName: 'test.jpeg'
-        };
-6
-        const destination = './uploads/';
-
-        fs.writeFileSync(destination + file.originalName, file.buffer);
-
-        return `${destination}${file.originalName}`;
-    } catch (error) {
-        console.log(error.toString());
-        return null;
-    }
+const uploadImage = (req, res) => {
+    upload(req, res, (err) => {
+        if (err) {
+            console.log(err);
+            return res.status(400).json({ message: 'Failed to upload' });
+        }
+        const filePath = req.file.path;
+        const fileName = req.file.filename;
+        res.status(200).json({ fileName , filePath })
+    })
 }
 
-module.exports = { uploadImage };
+const uploadExcel = async (req, res) =>  {
+    upload(req, res, (err) => {
+        const fileExtension = req.file.originalname.split('.').pop().toLowerCase();
+        let jsonData;
+
+        if (fileExtension === 'xlsx') {
+            const workbook = xlsx.readFile(req.file.path);
+            const sheetName = workbook.SheetNames[0];
+            const sheet = workbook.Sheets[sheetName];
+            jsonData = xlsx.utils.sheet_to_json(sheet);
+        }
+
+        res.json({ data : jsonData });
+        fs.unlinkSync(req.file.path);
+    })
+}
+
+module.exports = { uploadImage, uploadExcel };

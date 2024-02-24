@@ -10,8 +10,9 @@ const createUser = async (req, res) => {
         }
 
         const createdOn = Date.now();
+        const dt = new Date();
 
-        const userId = crypto.randomUUID().toString();
+        const userId = `N${String(dt.getDate()).padStart(2, '0')}${String(dt.getMonth() + 1).padStart(2, '0')}${dt.getFullYear()}${String(dt.getHours()).padStart(2,'0')}${String(dt.getMinutes()).padStart(2,'0')}`;
 
         const user = {
             username,
