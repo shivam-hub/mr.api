@@ -1,6 +1,7 @@
 const crypto = require('crypto')
 const Visit = require('../models/Visits');
 const doctorService = require('../services/doctorServices');
+const scheduleVisitService = require('../services/scheduleVisitService');
 const { uploadImage } = require('./fileController');
 
 const addVisit = async (req, res) => {
@@ -21,6 +22,12 @@ const addVisit = async (req, res) => {
             await doctorService.updateDoctor(docInfo);
             const res = await doctorService.getDoctorById(docInfo.drId);
             payload.doctorInfo = res;
+        }
+
+        if(payload.scheduleId && payload.scheduleId != ''){
+            const schedule = await scheduleVisitService.getVisit(payload.scheduleId);
+            schedule.isVisited = true;
+            const updatedSchedule = await scheduleVisitService.updateVisit(schedule);
         }
 
         const visitedOn = Date.now();

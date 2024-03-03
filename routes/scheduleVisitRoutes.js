@@ -7,5 +7,6 @@ router.use(jwtMiddleware);
 
 router.post('/add', scheduleVisitController.addSchedule);
 router.get('/:mrId', scheduleVisitController.getAllSchedulesOfMR);
+router.post('/bulkAdd', scheduleVisitController.bulkScheduleVisit);
 
 module.exports = router;
