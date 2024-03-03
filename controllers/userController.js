@@ -1,12 +1,11 @@
-const crypto = require('crypto')
 const User = require('../models/User');
 
 const createUser = async (req, res) => {
     try {
-        const { username, password, email, contactNo, name } = req.body;
+        const payload = req.body;
 
-        if (username === undefined || password === undefined || name === undefined) {
-            return res.status(500).json({ message: 'Either username or password or name is missing' })
+        if (!payload || !payload.username || !payload.password || !payload.name || !payload.userType) {
+            return res.status(500).json({ message: 'Either username or password or name or user type is missing' })
         }
 
         const createdOn = Date.now();
@@ -14,17 +13,12 @@ const createUser = async (req, res) => {
 
         const userId = `N${String(dt.getDate()).padStart(2, '0')}${String(dt.getMonth() + 1).padStart(2, '0')}${dt.getFullYear()}${String(dt.getHours()).padStart(2,'0')}${String(dt.getMinutes()).padStart(2,'0')}`;
 
-        const user = {
-            username,
-            password,
-            createdOn,
-            contactNo,
-            email,
-            userId,
-            name
-        };
+        payload.createdOn = createdOn;
+        payload.modifiedOn = createdOn;
+        payload.createdOn = createdOn;
+        payload.userId = userId;
 
-        const newUser = new User(user)
+        const newUser = new User(payload)
         const result = await newUser.save();
 
         res.status(201).json({ message: 'User created successfully', data: result});

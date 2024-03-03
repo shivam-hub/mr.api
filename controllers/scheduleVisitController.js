@@ -1,47 +1,12 @@
-const crypto = require('crypto');
 const ScheduleVisit = require('../models/ScheduleVisitModel');
-
+const scheduledVisitService = require('../services/scheduleVisitService');
 
 const addSchedule = async (req, res) => {
     try {
         const payload = req.body;
 
-        if (!payload || !payload.mrId || !payload.plannedVisitDate || !payload.plannedVisitTime) {
-            res.status(500).json({ message: 'Please provide all required info' });
-        }
-
-        const timeComponents = payload.plannedVisitTime.match(/(\d+):(\d+) (AM|PM)/);
-        const plannedVisitDate = Date.parse(payload.plannedVisitDate);
-        const parsedPlannedVisitTime = new Date(plannedVisitDate);
-
-        if (timeComponents) {
-            let hours = parseInt(timeComponents[1]);
-            const minutes = parseInt(timeComponents[2]);
-            const period = timeComponents[3].toUpperCase();
-
-            if (period === 'PM' && hours !== 12) {
-                hours += 12;
-            } else if (period === 'AM' && hours === 12) {
-                hours = 0;
-            }
-
-            parsedPlannedVisitTime.setHours(hours, minutes, 0, 0);
-            console.log(parsedPlannedVisitTime); 
-        } else {
-            throw Error('Time incorrect');
-        }
-
-        const createdOn = Date.now();
-        const dt = new Date();
-
-        const scheduleId = `S${String(dt.getDate()).padStart(2, '0')}${String(dt.getMonth() + 1).padStart(2, '0')}${dt.getFullYear()}${String(dt.getHours()).padStart(2,'0')}${String(dt.getMinutes()).padStart(2,'0')}`;
-
-        payload.createdOn = createdOn;
-        payload.scheduleId = scheduleId;
-        payload.plannedVisitDate = plannedVisitDate;
-        payload.plannedVisitTime = parsedPlannedVisitTime;
-
-        const result = await new ScheduleVisit(payload).save();
+        const result = scheduledVisitService.add(payload);
+        
         res.status(200).json(result);
 
     } catch (error) {
@@ -58,9 +23,35 @@ const getAllSchedulesOfMR = async(req, res) => {
         res.status(200).json({scheduledVisit});
 
     } catch (error) {
-        
+        res.status(500).json({ message: 'Internal Server error' });
     }
 }
 
-module.exports = { addSchedule, getAllSchedulesOfMR };
+
+const bulkScheduleVisit = async(req, res) => {
+    try {
+        const payload = req.body;
+
+        if (!payload || !Array.isArray(payload)) {
+            res.status(500).json({ message: 'Please provide all required info' });
+        }
+
+        const count = 0;
+
+        payload.forEach(async schedule => {
+            let resp = await scheduledVisitService.add(schedule);
+            if(resp.status === 200) count++;
+        });
+
+        const result = {
+            message :  `${count} visit scheduled successfully`
+        }
+        res.status(200).json(result);
+
+    } catch (error) {
+        res.status(500).json({ message: 'Internal Server error' });
+    }
+}
+
+module.exports = { addSchedule, getAllSchedulesOfMR, bulkScheduleVisit };
 

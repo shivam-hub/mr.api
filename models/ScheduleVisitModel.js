@@ -1,21 +1,16 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const addressInfoModel = require('../models/AddressInfo');
-
-
-const AssociatedMedicalSchema = {
-    name : String,
-    location: String,
-    gstNumber: String
-};
 
 const doctorInfo = {
     drId: String,
     name: String,
     speciality: String,
-    clinicName: String,
-    addressInfo: addressInfoModel,
-    associatedMedicals: [AssociatedMedicalSchema],
+    clinicName: String
+}
+
+const addedBy = {
+    id: String,
+    name: String
 }
 
 const ScheduleVisitSchema = new Schema({
@@ -24,10 +19,10 @@ const ScheduleVisitSchema = new Schema({
     doctorInfo: doctorInfo,
     isVisited: { type: Boolean, default: false },
     plannedVisitDate: { type: Date, required: true },
-    plannedVisitTime: { type: Date, required: true },
     createdOn: { type: Date },
     modifiedOn: { type: Date },
-    priorty: { type: String }
+    priorty: { type: String },
+    addedBy: addedBy
 })
 
 const ScheduleVisit = mongoose.model('ScheduleVisit', ScheduleVisitSchema);

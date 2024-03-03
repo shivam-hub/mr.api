@@ -10,5 +10,6 @@ router.post('/create', doctorController.createDoctor);
 router.post('/bulkAddFromExcel', doctorController.bulkAddFromExcel);
 router.get('/getAllDoctors', doctorController.getAllDoctors);
 router.get('/search/:query', doctorController.searchDoctors);
+router.get('/getDoctorById/:drId', doctorController.getDoctorById);
 
 module.exports = router;

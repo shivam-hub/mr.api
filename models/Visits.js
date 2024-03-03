@@ -36,6 +36,7 @@ const product = {
 const VisitSchema = new Schema({
     mrId: { type: String, required: true },
     visitId: { type: String, required: true, unique: true },
+    scheduleId: { type: String },
     mrInfo: mrInfo,
     doctorInfo: doctorInfo,
     visitedOn: { type: Date, required: true },
